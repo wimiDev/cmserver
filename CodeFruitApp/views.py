@@ -1,20 +1,23 @@
-import datetime
-
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from rest_framework.views import APIView
+from CodeFruitApp.models import User
 
 
-class GetMessageView(APIView):
-    # get 请求
-    def get(self, request):
-        # 获取参数数据
+class UserRegister(APIView):
+    # 注册
+    def get(self,request):
         get = request.GET
-        # 获取参数 a
-        a = get.get('a')
+        username = get.get('username')
+        password = get.get('password')
+
+        User.objects.get(UserName=username)
+        User.objects.create(UserName="12344", UserPass="21312")
+
         # 返回信息
-        d = {
+        data = {
             'status': 1,
             'message': 'success',
-            'params' : a,
-            }
-        return JsonResponse(d)
+            'username': username,
+            'password': password,
+        }
+        return JsonResponse(data)

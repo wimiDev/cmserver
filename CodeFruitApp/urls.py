@@ -3,5 +3,6 @@ from CodeFruitApp import views
 
 # api url 配置
 urlpatterns = [
-    url('test$', views.GetMessageView.as_view()),
+    url('register/$', views.UserRegister.as_view()),
+    url('login/$', views.UserLogin.as_view()),
 ]
