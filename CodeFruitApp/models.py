@@ -3,6 +3,7 @@ class User(models.Model):
 
     UserName = models.CharField(max_length=20)
     UserPass = models.CharField(max_length=20)
+    Token = models.CharField(max_length=50,default = '')
 
     ONLINE = 'ONLINE'
     OFFLINE = 'OFFLINE'
@@ -29,3 +30,11 @@ class User(models.Model):
     	choices = ACCOUNT_STATE,
     	default = NORMAL,
     )
+
+class UserPosition(models.Model):
+    UserName = models.CharField(max_length=20)
+    longitude = models.CharField(max_length=20)
+    latitude = models.CharField(max_length=20)
+    uploaddate = models.CharField(max_length=20)
+
+    
