@@ -40,7 +40,7 @@ class UserLogin(APIView):
             user = users[0]
             if(user.UserPass == password):
                 #creat token
-                user.Token = user.UserName + '1234567890'
+                user.Token = '123214235434'#token.key
                 user.LoginState = User.ONLINE
                 data = {
                     'status': 0,
@@ -60,4 +60,5 @@ class UserLogin(APIView):
 
         return JsonResponse(data)
     
+    #http://127.0.0.1:8000/CodeFruit/login/?username=cyy&password=123456
 
