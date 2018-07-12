@@ -31,6 +31,8 @@ class User(models.Model):
     	default = NORMAL,
     )
 
+    LoginTime = models.CharField(max_length=20,default = '')
+
 class UserPosition(models.Model):
     UserName = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)

@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from CodeFruitApp.models import User
+from CodeFruitApp.tool import tokentool
+import time
 
 
 class UserRegister(APIView):
@@ -30,6 +32,7 @@ class UserLogin(APIView):
         get = request.GET
         username = get.get('username')
         password = get.get('password')
+        usertoken = get.get('token')
         
         users = User.objects.filter(UserName=username)
         data = {
@@ -38,10 +41,15 @@ class UserLogin(APIView):
             }
         if len(users) > 0:
             user = users[0]
+            stmp = time.time()
+            extren = int(round(stmp * 1000))
             if(user.UserPass == password):
                 #creat token
-                user.Token = '123214235434'#token.key
+                tokenMaker = tokentool.TokenMaker()
+                token = tokenMaker.createToken(str(extren))
+                user.Token = token
                 user.LoginState = User.ONLINE
+                user.LoginTime = str(extren)
                 data = {
                     'status': 0,
                     'message': 'login sucess',
@@ -49,7 +57,15 @@ class UserLogin(APIView):
                     'token':user.Token,
                 }
                 user.save()
-
+            elif(user.Token == usertoken):
+                user.LoginState = User.ONLINE
+                user.LoginTime = str(extren)
+                data = {
+                    'status': 0,
+                    'message': 'login sucess',
+                    'username':username,
+                }
+                user.save()
             else:
            # 返回信息
                 data = {
@@ -61,4 +77,5 @@ class UserLogin(APIView):
         return JsonResponse(data)
     
     #http://127.0.0.1:8000/CodeFruit/login/?username=cyy&password=123456
+    #http://127.0.0.1:8000/CodeFruit/login/?username=cyy&token=0fe44f77d572b251671795017b7e97b2ef589ccf
 
